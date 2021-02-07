@@ -4,9 +4,14 @@ import './index.css';
 import 'antd/dist/antd.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import Store from './ReactRedux/Store';
 
 ReactDOM.render(
-  <App />,
+  <Provider store={Store}>
+    <App />
+  </Provider>
+  ,
   document.getElementById('root')
 );
 
