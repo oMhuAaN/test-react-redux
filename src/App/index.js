@@ -1,29 +1,39 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 
-class App extends Component {
-  render() {
-    return (
+const App = (props) => {
+  const { inputValue, changeInputValue, handleClick, handleDeleteItem } = props;
+  return (
+    <div>
       <div>
-        <div>
-          <input
-            value={this.props.inputValue}
-            onChange={this.props.changeInputValue}
-          />
-          <button>提交</button>
-        </div>
-        <ul>
-          <li>Dell</li>
-        </ul>
+        <input
+          value={inputValue}
+          onChange={changeInputValue}
+        />
+        <button onClick={handleClick}>提交</button>
       </div>
-    )
-  }
+      <ul>
+        {
+          props.list.map((item, index) => (
+            <li
+              key={`${item}-${index}`}
+              onClick={() => {
+                handleDeleteItem(index)
+              }}
+            >{item}</li>
+          ))
+        }
+      </ul>
+    </div>
+  )
 }
+
 
 const mapStateToProps = (state) => {
   return {
     inputValue: state.inputValue,
+    list: state.list,
   }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -34,6 +44,19 @@ const mapDispatchToProps = (dispatch) => {
         value: e.target.value
       }
       dispatch(action);
+    },
+    handleClick() {
+      const action = {
+        type: 'add_item'
+      }
+      dispatch(action);
+    },
+    handleDeleteItem(index) {
+      const action = {
+        type: 'delete_item',
+        index
+      }
+      dispatch(action)
     }
   }
 }
